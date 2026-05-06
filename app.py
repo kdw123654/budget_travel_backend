@@ -55,12 +55,11 @@ async def get_rebalanced_budgets(request: RebalanceRequest):
 )
     
     # 2. (선택사항) 바뀐 예산에 맞는 새로운 추천 리스트도 같이 보내기
-    # 이를 위해 RebalanceRequest에 location 정보도 추가로 받으면 좋습니다.
-    location_data = DATASET.get(request.location, []) # 요청에 location 추가 시
+    location_data = DATASET.get(request.location, [])
     filling_plan = get_optimal_recommendations(location_data, new_budgets)
     return {
         "cat_budgets": new_budgets,
-        "recommendations": filling_plan # 이제 슬라이더 옮길 때마다 장소 리스트가 바뀜!
+        "recommendations": filling_plan 
     }
 # 3. 데이터 조회: 특정 지역의 데이터만 따로 요청할 때
 @app.get("/recommendations/{location}")
