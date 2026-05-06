@@ -39,6 +39,6 @@ Backend: FastAPI
 
 Language: Python 3.10+
 
-Frontend/UX: Streamlit
+Frontend/UX test: Streamlit
 
 Data: JSON-based Dataset
