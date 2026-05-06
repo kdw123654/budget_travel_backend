@@ -39,6 +39,9 @@ Backend: FastAPI
 
 Language: Python 3.10+
 
+#실행방법
+pip install -r requirements.txt 
+
 Frontend/UX test: Streamlit
 
 Data: JSON-based Dataset
