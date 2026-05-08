@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Dict
 from parser import parse_user_intent
-from logic import load_dataset, calculate_initial_budgets, rebalance_budgets, filter_recommendations, get_optimal_recommendations
+from logic import load_dataset, calculate_initial_budgets, rebalance_budgets, filter_recommendations,get_smart_recommendations
 
 app = FastAPI()
 DATASET = load_dataset()
@@ -34,13 +34,13 @@ async def analyze_intent(request: AnalyzeRequest):
     # 해당 지역의 추천 장소 리스트도 함께 반환
     location = parsed['location']
     recommendations = DATASET.get(location, [])
-    optimal_plan = get_optimal_recommendations(recommendations, init_budgets, top_n=1)
+    smart_plan = get_smart_recommendations(recommendations, init_budgets)
     return {
         "location": location,
         "total_budget": parsed['budget'],
         "priority": parsed['priority'],
         "cat_budgets": init_budgets,
-        "recommendations": optimal_plan
+        "recommendations": smart_plan
     }
 
 # 2. 예산 재배분: 슬라이더를 옮길 때마다 호출되어 새로운 예산을 계산
@@ -57,7 +57,7 @@ async def get_rebalanced_budgets(request: RebalanceRequest):
     # 2. (선택사항) 바뀐 예산에 맞는 새로운 추천 리스트도 같이 보내기
     # 이를 위해 RebalanceRequest에 location 정보도 추가로 받으면 좋습니다.
     location_data = DATASET.get(request.location, []) # 요청에 location 추가 시
-    filling_plan = get_optimal_recommendations(location_data, new_budgets)
+    filling_plan = get_smart_recommendations(location_data, new_budgets)
     return {
         "cat_budgets": new_budgets,
         "recommendations": filling_plan # 이제 슬라이더 옮길 때마다 장소 리스트가 바뀜!

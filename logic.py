@@ -1,4 +1,5 @@
 import json
+import random
 
 def load_dataset():
     try:
@@ -56,23 +57,50 @@ def filter_recommendations(location_data, category_budgets):
 
     return itinearay
 
-def get_optimal_recommendations(location_data, category_budgets,top_n=1):
-    if not location_data:
-        return []
-    sorted_data= sorted(
-        location_data,
-        key=lambda x: abs(x.get('price', 0) - category_budgets.get(x['cat'], 0))    
-    )
 
-    itinearay = []
-    counts = {cat: 0 for cat in category_budgets.keys()}
+def get_smart_recommendations(location_data, category_budgets):
+    """
+    location_data: 전체 장소 리스트
+    category_budgets: {'Stay': 100000, 'Food': 50000, 'Activity': 30000} 형태
+    """
+    final_itinerary = []
+    
+    data_by_cat = {
+        'Stay': [item for item in location_data if item['cat'] == 'Stay'],
+        'Food': [item for item in location_data if item['cat'] == 'Food'],
+        'Activity': [item for item in location_data if item['cat'] == 'Activity']
+    }
 
-    for item in sorted_data:
-        cat = item.get('cat')
-        price = int(item.get('price', 0))
-        limit = category_budgets.get(cat, 0)
-
-        if (spent_dict[cat] + price) <= limit: 
-            itinerary.append(item)
-            spent_dict[cat] += price
-    return itinearay
+    for cat, budget in category_budgets.items():
+        candidates = data_by_cat.get(cat, [])
+        if not candidates:
+            continue
+            
+        # 셔플을 통해 매번 다른 결과가 나오도록 함 (랜덤성)
+        random.shuffle(candidates)
+        
+        if cat == 'Stay':
+            affordable_stays = [i for i in candidates if i['price'] <= budget]
+            if affordable_stays:
+                best_stay = max(affordable_stays, key=lambda x: x['price'])
+                final_itinerary.append(best_stay)
+            else:
+                # 만약 예산 내 숙소가 하나도 없다면? 가장 싼 거라도 하나 추천
+                cheapest_stay = min(candidates, key=lambda x: x['price'])
+                final_itinerary.append(cheapest_stay)
+                
+        else:
+            # --- [식당/액티비티 로직] 예산 바닥날 때까지 N개 추출 ---
+            remaining_budget = budget
+            count = 0
+            
+            for item in candidates:
+                if item['price'] <= remaining_budget and count < 4:
+                    final_itinerary.append(item)
+                    remaining_budget -= item['price']
+                    count += 1
+                
+                if remaining_budget < 5000:
+                    break
+                    
+    return final_itinerary
