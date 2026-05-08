@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Dict
 from parser import parse_user_intent
-from logic import load_dataset, calculate_initial_budgets, rebalance_budgets, filter_recommendations,get_smart_recommendations
+from logic import load_dataset, calculate_initial_budgets, rebalance_budgets,get_smart_recommendations
 
 app = FastAPI()
 DATASET = load_dataset()
@@ -54,13 +54,15 @@ async def get_rebalanced_budgets(request: RebalanceRequest):
     request.current_budgets # 4. 바뀌기 전의 예산 딕셔너리
 )
     
-    # 2. (선택사항) 바뀐 예산에 맞는 새로운 추천 리스트도 같이 보내기
-    # 이를 위해 RebalanceRequest에 location 정보도 추가로 받으면 좋습니다.
-    location_data = DATASET.get(request.location, []) # 요청에 location 추가 시
+    
+    location_data = DATASET.get(request.location, [])
+    filling_plan = get_smart_recommendations(location_data, new_budgets)
+
+    location_data = DATASET.get(request.location, [])
     filling_plan = get_smart_recommendations(location_data, new_budgets)
     return {
         "cat_budgets": new_budgets,
-        "recommendations": filling_plan # 이제 슬라이더 옮길 때마다 장소 리스트가 바뀜!
+        "recommendations": filling_plan 
     }
 # 3. 데이터 조회: 특정 지역의 데이터만 따로 요청할 때
 @app.get("/recommendations/{location}")

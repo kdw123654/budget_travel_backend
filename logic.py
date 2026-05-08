@@ -33,29 +33,7 @@ def rebalance_budgets(changed_cat, new_value, total_budget, current_budgets):
     return new_budgets
 
 
-def filter_recommendations(location_data, category_budgets):
-    if not location_data:
-        return []
-    sorted_data = sorted(
-        location_data,
-        key=lambda x: abs(x.get('price', 0) - category_budgets.get(x['cat'], 0))    
-    )
 
-    itinearay = []
-    spent_dict = {cat: 0 for cat in category_budgets.keys()}
-    selected_names=set()
-
-    for item in sorted_data:
-        cat=item.get('cat')
-        price=item.get('price', 0)
-        limit=category_budgets.get(cat, 0)
-
-        if (spent_dict[cat] + price <= limit) and (item.get('name') not in selected_names):
-            itinearay.append(item)
-            spent_dict[cat] += price
-            selected_names.add(item.get('name'))
-
-    return itinearay
 
 
 def get_smart_recommendations(location_data, category_budgets):
