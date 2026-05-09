@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+/* 만약 배경색을 넣고 싶다면 아래에 추가 */
+body {
+  @apply bg-slate-50;
+}

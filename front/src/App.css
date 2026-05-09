@@ -1,0 +1,46 @@
+/* src/App.css */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+@import "tailwindcss";
+
+body {
+  font-family: 'Pretendard', sans-serif;
+  margin: 0;
+  background-color: #f3f4f6;
+}
+
+/* 피그마 그라데이션 텍스트 */
+.gradient-text {
+  background: linear-gradient(180deg, #4982FF 0%, #251478 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 피그마 메인 버튼 그라데이션 (파그) */
+.btn-gradient {
+  background: linear-gradient(180deg, #B4C2FF 0%, #597FFF 100%);
+  box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.15);
+  border: none;
+}
+
+/* 영수증 박스 스타일 (Rectangle 33145) */
+.receipt-card {
+  background: #FDFDFD;
+  box-shadow: 9px 17px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 30px;
+  position: relative;
+}
+
+/* 점선 구분선 (Vector 491) */
+.dashed-divider {
+  border: none;
+  border-top: 2px dashed #03001A;
+  opacity: 0.2;
+  width: 100%;
+  margin: 20px 0;
+}
+
+/* 성수동 블루 포인트 컬러 */
+.bg-seongsu-blue { background-color: #85A1FF; }
+.text-seongsu-dark { color: #03001A; }
