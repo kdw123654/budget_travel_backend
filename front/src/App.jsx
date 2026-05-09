@@ -4,7 +4,7 @@ import Home from './pages/Home';
 import Setup from './pages/Setup';
 import CourseRecommendation from './pages/CourseRecommendation';
 import CourseReceipt from './pages/CourseReceipt';
-const API_BASE_URL = "http://localhost:8000";
+const API_BASE_URL = "https://budget-travel-backend-fkum.onrender.com";
 
 function App() {
   const [step, setStep] = useState(1);

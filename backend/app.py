@@ -12,6 +12,11 @@ from logic import load_dataset, calculate_initial_budgets, rebalance_budgets, ge
 app = FastAPI()
 DATASET = load_dataset()
 
+
+origins = [
+    "http://localhost:5175",
+    "https://budget-travel-backend-one.vercel.app", # 내 Vercel 주소 (끝에 / 빼기)
+]
 # CORS 설정: 프론트엔드 포트 허용
 app.add_middleware(
     CORSMiddleware,
