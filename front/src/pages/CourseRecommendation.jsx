@@ -63,7 +63,6 @@ export default function CourseRecommendation({ userData, onBack, onConfirm }) {
 
   return (
     <div className="relative w-full min-h-screen bg-white flex flex-col font-sans text-[#03001A]">
-      
       {/*  로딩 오버레이 */}
       {isLoading && (
         <div className="fixed inset-0 z-[100] bg-white/80 backdrop-blur-md flex flex-col items-center justify-center">
@@ -78,7 +77,7 @@ export default function CourseRecommendation({ userData, onBack, onConfirm }) {
       )}
 
       {/* --- 네비게이션바 --- */}
-      <nav className="flex justify-between items-center px-10 py-6 border-b border-[#E5E7EB]">
+<nav className="flex justify-between items-center px-10 py-6 border-b border-[#E5E7EB] shrink-0">
         <div className="text-[20px] font-black text-[#4066E2]">얼마면돼?</div>
         <div className="flex gap-8 text-[14px] font-medium text-gray-500">
           <span>home</span><span>Archive</span><span>trend</span>
@@ -90,7 +89,7 @@ export default function CourseRecommendation({ userData, onBack, onConfirm }) {
 
       <div className="flex flex-1 overflow-hidden">
         {/* [왼쪽] 예산 사이드바 */}
-        <aside className="w-[600px] bg-[#85A1FF] rounded-tr-[40px] p-8 flex flex-col text-white shadow-xl z-10">
+        <aside className="w-[300px] bg-[#85A1FF] rounded-tr-[40px] p-8 flex flex-col text-white shadow-xl z-10">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-[20px] font-bold">예산</h2>
             <button onClick={onBack} className="text-xl font-light hover:scale-110 transition-transform">✕</button>
@@ -143,14 +142,17 @@ export default function CourseRecommendation({ userData, onBack, onConfirm }) {
           <div className="space-y-4 mb-12">
             {currentCourses.map((course, idx) => {
               const ui = CAT_CONFIG[course.cat] || { label: course.cat, tagColor: '#E5E7EB' };
+              const searchUrl = `https://map.kakao.com/link/search/${encodeURIComponent(course.name)}`;
               return (
-                <div key={idx} className="bg-[#EEF2FF] rounded-[22px] p-6 flex justify-between items-center shadow-sm hover:shadow-md transition-shadow">
+                <div key={idx} onClick={() => window.open(searchUrl, '_blank')} className="bg-[#EEF2FF] rounded-[22px] p-6 flex justify-between items-center shadow-sm hover:shadow-md hover:bg-[#E0E7FF] transition-all cursor-pointer group"
+                        title="클릭하면 상세 정보를 확인합니다">
                   <div className="flex items-start gap-5">
                     <div className="w-10 h-10 bg-white text-[#03001A] rounded-full flex items-center justify-center font-bold text-[16px] shadow-sm shrink-0">
                       {idx + 1}
                     </div>
                     <div>
                       <h3 className="text-[17px] font-bold text-[#03001A] mb-1">{course.name}</h3>
+                      <span className="text-[12px] text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">🔗</span>
                       <p className="text-gray-500 text-[13px] mb-3">{ui.label} · {course.addr}</p>
                       <span className="px-4 py-1 rounded-full text-[11px] font-bold shadow-sm" style={{ backgroundColor: ui.tagColor, color: ui.textColor }}>
                         {ui.label}
@@ -172,7 +174,7 @@ export default function CourseRecommendation({ userData, onBack, onConfirm }) {
         {/* [오른쪽] 실시간 지도 (40%) */}
         <section style={{ 
             position: 'relative', 
-            width: '60%',       
+            width: '40%',       
             height: '110vh', 
             minHeight: '500px' 
         }}>
@@ -193,7 +195,7 @@ export default function CourseRecommendation({ userData, onBack, onConfirm }) {
 {currentCourses.map((course, index) => {
   // CAT_CONFIG에서 해당 카테고리의 색상 정보 가져오기
   const ui = CAT_CONFIG[course.cat] || { tagColor: '#4066E2', textColor: '#FFFFFF' };
-  
+  const searchUrl = `https://map.kakao.com/link/search/${encodeURIComponent(course.name)}`;
   return (
     <CustomOverlayMap 
       key={index} 
