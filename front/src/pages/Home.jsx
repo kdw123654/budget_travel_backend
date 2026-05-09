@@ -1,7 +1,7 @@
 import React from 'react';
 
 // 인기 키워드 데이터
-const keywords = ["성수동 데이트", "20만원 한정", "가성비 맛집", "성수 핫플레이스", "50000원 이하", "혼자 여행"];
+const keywords = ["성수동 데이트", "20만원 한정", "가성비 맛집", "서울 핫플레이스", "50000원 이하", "혼자 여행"];
 
 // 하단 기능 소개 데이터 (이미지 경로 포함)
 const featureItems = [
@@ -61,7 +61,7 @@ export default function Home({ onNext }) {
       {/* --- 2. 히어로 섹션 --- */}
       <main className="flex flex-col items-center py-24 text-center">
         <h1 className="text-[64px] font-[800] leading-[1.2] text-[#03001A] mb-4">
-          오늘 <span className="text-[#4066E2]">성수동</span>,<br />얼마면 돼?
+          오늘 <span className="text-[#4066E2]"></span>,<br />얼마면 돼?
         </h1>
         <p className="text-[22px] font-[700] text-[#03001A] mb-12">
           예산 한 푼도 허투루 쓰지 않는 여행 코스 가이드
