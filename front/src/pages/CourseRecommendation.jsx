@@ -4,7 +4,7 @@ import axios from 'axios';
 // 카테고리별 디자인 설정
 const CAT_CONFIG = {
   Stay: { label: '숙소', tagColor: '#FFE78A', barColor: '#FFE78A', textColor: '#854D0E' },
-  Food: { label: '식사', tagColor: '#85A1FF', barColor: '#85A1FF', textColor: '#FFFFFF' },
+  Food: { label: '식사', tagColor: '#5b74c6', barColor: '#5b74c6', textColor: '#FFFFFF' },
   Activity: { label: '활동', tagColor: '#A8E4C1', barColor: '#A8E4C1', textColor: '#064E3B' }
 };
 
